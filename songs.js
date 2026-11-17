@@ -1,9 +1,9 @@
-// Song Library 1.1: de gedeelde liedjes voor alle instrument-apps.
+// Song Library 1.2: de gedeelde liedjes voor alle instrument-apps.
 // Elk liedje: [id, serie, tempo (bpm), noten, eigen compositie?]. Noten in C: naam+octaaf:tellen, R = rust.
 // Publiek domein, behalve de stijlnummers (orig = true): die zijn voor deze apps gecomponeerd.
 // Instrument-apps nemen dit bestand mee bij het bouwen en verschuiven een liedje naar hun eigen toonladder.
 window.SONG_LIBRARY = {
-  version: '1.1',
+  version: '1.2',
   cats: ['kids', 'classical', 'folk', 'country', 'reggae', 'hiphop', 'urban', 'pop', 'westcoast'],
   songs: [
     ['twinkle', 'kids', 100, 'C4 C4 G4 G4 A4 A4 G4:2 F4 F4 E4 E4 D4 D4 C4:2 G4 G4 F4 F4 E4 E4 D4:2 G4 G4 F4 F4 E4 E4 D4:2 C4 C4 G4 G4 A4 A4 G4:2 F4 F4 E4 E4 D4 D4 C4:2', false],
@@ -97,6 +97,23 @@ window.SONG_LIBRARY = {
     ['laidback', 'westcoast', 96, 'A3:.5 A3:.5 C4 R:.5 D4:.5 C4 A3:.5 A3:.5 C4 R:.5 E4:.5 D4 A3:.5 A3:.5 C4 R:.5 D4:.5 E4:.5 G4:.5 E4 D4:.5 C4:.5 A3:2', true],
     ['talkbox', 'westcoast', 90, 'E4:1.5 G4:.5 A4 G4:.5 E4:.5 D4:2 R:1 E4:1.5 G4:.5 C5 A4:.5 G4:.5 A4:2 R:1 G4:.5 E4:.5 D4 E4:.5 D4:.5 C4 A3:3', true],
     ['cityhaze', 'westcoast', 86, 'D4:1.5 E4:.5 F4 E4 D4:2 C4 A3:2 R:1 D4:1.5 E4:.5 F4 A4 G4:2 F4 E4:2 R:1 D4:.5 E4:.5 F4 E4:.5 D4:.5 C4 D4:3', true],
+  ],
+  // Artiest of componist per liedje-id ('gregorian' wordt vertaald; geen vermelding = traditioneel, orig = eigen nummer)
+  artists: { ode: 'Ludwig van Beethoven', fifth: 'Ludwig van Beethoven', spring: 'Antonio Vivaldi', largo: 'Antonín Dvořák', toccata: 'Johann Sebastian Bach', canon: 'Johann Pachelbel', surprise: 'Joseph Haydn', bridal: 'Richard Wagner', mozart: 'Wolfgang Amadeus Mozart', diesirae: 'gregorian', jingle: 'James Lord Pierpont', susanna: 'Stephen Foster', camptown: 'Stephen Foster', aura: 'George R. Poulton', simple: 'Joseph Brackett', home: 'Daniel E. Kelley', swing: 'Wallace Willis', grace: 'John Newton' },
+  // Per serie: artiesten in wier stijl de eigen nummers geschreven zijn (doorzoekbaar)
+  like: { westcoast: 'Dr. Dre, Snoop Dogg, Warren G' },
+  // Bekende nummers als referentie: [titel, artiest, jaar, serie]. Niet speelbaar (auteursrecht), alleen een luisterlink.
+  refs: [
+    ['Still D.R.E.', 'Dr. Dre feat. Snoop Dogg', 1999, 'westcoast'],
+    ['Forgot About Dre', 'Dr. Dre feat. Eminem', 1999, 'westcoast'],
+    ['Nuthin\' but a "G" Thang', 'Dr. Dre feat. Snoop Dogg', 1992, 'westcoast'],
+    ['The Next Episode', 'Dr. Dre feat. Snoop Dogg, Kurupt & Nate Dogg', 2000, 'westcoast'],
+    ['Let Me Ride', 'Dr. Dre', 1993, 'westcoast'],
+    ['California Love', '2Pac feat. Dr. Dre & Roger Troutman', 1995, 'westcoast'],
+    ['Keep Their Heads Ringin\'', 'Dr. Dre', 1995, 'westcoast'],
+    ['Xxplosive', 'Dr. Dre feat. Hittman, Kurupt, Nate Dogg & Six-Two', 1999, 'westcoast'],
+    ['Kush', 'Dr. Dre feat. Snoop Dogg & Akon', 2010, 'westcoast'],
+    ['I Need a Doctor', 'Dr. Dre feat. Eminem & Skylar Grey', 2011, 'westcoast'],
   ],
   catNames: {
     en: { kids: 'Children\'s songs', classical: 'Classical', folk: 'Folk & traditional', country: 'Country', reggae: 'Reggae style', hiphop: 'Hip-hop style', urban: 'Urban / R&B style', pop: 'Pop style', westcoast: 'West Coast style' },

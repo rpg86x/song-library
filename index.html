@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Song Library 1.1</title>
+<title>Song Library 1.2</title>
 <link rel="icon" href="logo.png">
 <style>
   :root {
@@ -36,6 +36,11 @@
   #list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; max-width: 1100px; margin: 0 auto; padding: 0 16px; }
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
   .card.top { border-color: rgba(255, 207, 90, .45); }
+  .card.ref { border-style: dashed; }
+  .card .artist { font-size: 13px; color: var(--accent); }
+  .card .lock { font-size: 12px; color: #f0b46a; }
+  .card a.ext { color: var(--text); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: 14px; }
+  .card a.ext:hover { background: rgba(255, 255, 255, .12); }
   .card b { font-weight: 500; font-size: 16px; }
   .card .meta { font-size: 12px; color: var(--muted); }
   .card .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
@@ -61,7 +66,7 @@
 </head>
 <body>
 <header>
-  <h1>Song Library <small>1.1</small></h1>
+  <h1>Song Library <small>1.2</small></h1>
   <input id="search" type="search">
   <select id="lang" aria-label="Language">
     <option value="en">English</option>
@@ -78,7 +83,7 @@
 <div id="list"></div>
 <p id="empty" hidden></p>
 <p id="note"></p>
-<footer>Song Library 1.1</footer>
+<footer>Song Library 1.2</footer>
 
 <div id="player">
   <button id="stopBtn" title="Stop">■</button>
@@ -96,15 +101,15 @@ const INSTRUMENTS = [
 ];
 
 const LANGS = {
-  en: { search: 'Search songs…', all: 'All', five: '★★★★★', four: '★★★★+', rated: 'Rated', instr: 'Play on:', preview: '▶ Preview', practice: '🎯 Practice', listen: '🎧 Listen', stop: 'Stop', idle: 'Pick a song and press Preview', pd: 'public domain', orig: 'original in this style', none: 'No songs found.', rate: 'stars', clear: 'Tap the same star again to clear', donate: 'Buy me a coffee', more: 'More languages', missing: 'is not installed on this device',
+  en: { search: 'Search title or artist…', trad: 'Traditional', origArtist: 'Song Library original', gregorian: 'Gregorian chant', likeOf: 'in the style of', ref: '🔒 Copyrighted: not playable in the apps', ext: '🔗 Listen on YouTube', all: 'All', five: '★★★★★', four: '★★★★+', rated: 'Rated', instr: 'Play on:', preview: '▶ Preview', practice: '🎯 Practice', listen: '🎧 Listen', stop: 'Stop', idle: 'Pick a song and press Preview', pd: 'public domain', orig: 'original in this style', none: 'No songs found.', rate: 'stars', clear: 'Tap the same star again to clear', donate: 'Buy me a coffee', more: 'More languages', missing: 'is not installed on this device',
     note: 'Rate songs with 1 to 5 stars: the 5-star and 4+ filters show your favorites. The reggae, hip-hop, West Coast, urban and pop tracks and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.' },
-  nl: { search: 'Zoek een liedje…', all: 'Alles', five: '★★★★★', four: '★★★★+', rated: 'Beoordeeld', instr: 'Spelen op:', preview: '▶ Voorspelen', practice: '🎯 Oefenen', listen: '🎧 Luisteren', stop: 'Stop', idle: 'Kies een liedje en druk op Voorspelen', pd: 'publiek domein', orig: 'eigen nummer in deze stijl', none: 'Geen liedjes gevonden.', rate: 'sterren', clear: 'Tik nog eens op dezelfde ster om te wissen', donate: 'Trakteer me op een koffie', more: 'Meer talen', missing: 'is niet geïnstalleerd op dit apparaat',
+  nl: { search: 'Zoek op titel of artiest…', trad: 'Traditioneel', origArtist: 'Song Library-origineel', gregorian: 'Gregoriaans', likeOf: 'in de stijl van', ref: '🔒 Auteursrechtelijk beschermd: niet speelbaar in de apps', ext: '🔗 Luister op YouTube', all: 'Alles', five: '★★★★★', four: '★★★★+', rated: 'Beoordeeld', instr: 'Spelen op:', preview: '▶ Voorspelen', practice: '🎯 Oefenen', listen: '🎧 Luisteren', stop: 'Stop', idle: 'Kies een liedje en druk op Voorspelen', pd: 'publiek domein', orig: 'eigen nummer in deze stijl', none: 'Geen liedjes gevonden.', rate: 'sterren', clear: 'Tik nog eens op dezelfde ster om te wissen', donate: 'Trakteer me op een koffie', more: 'Meer talen', missing: 'is niet geïnstalleerd op dit apparaat',
     note: 'Geef liedjes 1 tot 5 sterren: de filters 5 sterren en 4+ tonen je favorieten. De reggae-, hiphop-, West Coast-, urban- en popnummers en een deel van country zijn eigen nummers voor deze apps; bekende hits zijn auteursrechtelijk beschermd. Alle andere liedjes zijn publiek domein.' },
-  de: { search: 'Lieder suchen…', all: 'Alle', five: '★★★★★', four: '★★★★+', rated: 'Bewertet', instr: 'Spielen auf:', preview: '▶ Vorspielen', practice: '🎯 Üben', listen: '🎧 Anhören', stop: 'Stopp', idle: 'Wähle ein Lied und drücke Vorspielen', pd: 'gemeinfrei', orig: 'eigenes Stück in diesem Stil', none: 'Keine Lieder gefunden.', rate: 'Sterne', clear: 'Denselben Stern erneut tippen zum Löschen', donate: 'Spendier mir einen Kaffee', more: 'Weitere Sprachen', missing: 'ist auf diesem Gerät nicht installiert',
+  de: { search: 'Titel oder Künstler suchen…', trad: 'Traditionell', origArtist: 'Song-Library-Original', gregorian: 'Gregorianisch', likeOf: 'im Stil von', ref: '🔒 Urheberrechtlich geschützt: in den Apps nicht spielbar', ext: '🔗 Auf YouTube anhören', all: 'Alle', five: '★★★★★', four: '★★★★+', rated: 'Bewertet', instr: 'Spielen auf:', preview: '▶ Vorspielen', practice: '🎯 Üben', listen: '🎧 Anhören', stop: 'Stopp', idle: 'Wähle ein Lied und drücke Vorspielen', pd: 'gemeinfrei', orig: 'eigenes Stück in diesem Stil', none: 'Keine Lieder gefunden.', rate: 'Sterne', clear: 'Denselben Stern erneut tippen zum Löschen', donate: 'Spendier mir einen Kaffee', more: 'Weitere Sprachen', missing: 'ist auf diesem Gerät nicht installiert',
     note: 'Bewerte Lieder mit 1 bis 5 Sternen: die Filter 5 Sterne und 4+ zeigen deine Favoriten. Reggae-, Hip-Hop-, West-Coast-, Urban- und Pop-Stücke sowie einige Country-Stücke sind eigene Kompositionen für diese Apps; bekannte Hits sind urheberrechtlich geschützt. Alle anderen Lieder sind gemeinfrei.' },
-  fr: { search: 'Chercher une chanson…', all: 'Tout', five: '★★★★★', four: '★★★★+', rated: 'Notées', instr: 'Jouer sur :', preview: '▶ Écouter', practice: '🎯 S\'exercer', listen: '🎧 Écouter sur', stop: 'Arrêt', idle: 'Choisissez une chanson et appuyez sur Écouter', pd: 'domaine public', orig: 'composition dans ce style', none: 'Aucune chanson trouvée.', rate: 'étoiles', clear: 'Touchez la même étoile pour effacer', donate: 'Offrez-moi un café', more: 'Autres langues', missing: 'n\'est pas installé sur cet appareil',
+  fr: { search: 'Titre ou artiste…', trad: 'Traditionnel', origArtist: 'Original Song Library', gregorian: 'Chant grégorien', likeOf: 'dans le style de', ref: '🔒 Protégé par le droit d\'auteur : non jouable dans les applis', ext: '🔗 Écouter sur YouTube', all: 'Tout', five: '★★★★★', four: '★★★★+', rated: 'Notées', instr: 'Jouer sur :', preview: '▶ Écouter', practice: '🎯 S\'exercer', listen: '🎧 Écouter sur', stop: 'Arrêt', idle: 'Choisissez une chanson et appuyez sur Écouter', pd: 'domaine public', orig: 'composition dans ce style', none: 'Aucune chanson trouvée.', rate: 'étoiles', clear: 'Touchez la même étoile pour effacer', donate: 'Offrez-moi un café', more: 'Autres langues', missing: 'n\'est pas installé sur cet appareil',
     note: 'Notez les chansons de 1 à 5 étoiles : les filtres 5 étoiles et 4+ montrent vos favoris. Les morceaux reggae, hip-hop, West Coast, urbains et pop ainsi qu\'une partie de la country sont des compositions pour ces applis ; les tubes connus sont protégés. Toutes les autres chansons sont du domaine public.' },
-  es: { search: 'Buscar canciones…', all: 'Todo', five: '★★★★★', four: '★★★★+', rated: 'Valoradas', instr: 'Tocar en:', preview: '▶ Escuchar', practice: '🎯 Practicar', listen: '🎧 Escuchar en', stop: 'Detener', idle: 'Elige una canción y pulsa Escuchar', pd: 'dominio público', orig: 'original en este estilo', none: 'No se encontraron canciones.', rate: 'estrellas', clear: 'Toca la misma estrella otra vez para borrar', donate: 'Invítame a un café', more: 'Más idiomas', missing: 'no está instalado en este dispositivo',
+  es: { search: 'Buscar título o artista…', trad: 'Tradicional', origArtist: 'Original de Song Library', gregorian: 'Canto gregoriano', likeOf: 'al estilo de', ref: '🔒 Con derechos de autor: no se puede tocar en las apps', ext: '🔗 Escuchar en YouTube', all: 'Todo', five: '★★★★★', four: '★★★★+', rated: 'Valoradas', instr: 'Tocar en:', preview: '▶ Escuchar', practice: '🎯 Practicar', listen: '🎧 Escuchar en', stop: 'Detener', idle: 'Elige una canción y pulsa Escuchar', pd: 'dominio público', orig: 'original en este estilo', none: 'No se encontraron canciones.', rate: 'estrellas', clear: 'Toca la misma estrella otra vez para borrar', donate: 'Invítame a un café', more: 'Más idiomas', missing: 'no está instalado en este dispositivo',
     note: 'Valora las canciones con 1 a 5 estrellas: los filtros 5 estrellas y 4+ muestran tus favoritas. Los temas de reggae, hip-hop, West Coast, urbano y pop y parte del country son composiciones para estas apps; los éxitos conocidos tienen derechos de autor. Las demás canciones son de dominio público.' },
 };
 
@@ -124,6 +129,15 @@ const SONGS = LIB.songs.map(([id, cat, bpm, notes, orig]) => ({
   id, cat, bpm, orig,
   items: notes.split(' ').map(tok => { const [n, d] = tok.split(':'); return { n, rest: n === 'R', beats: d ? +d : 1 }; }),
 }));
+// Artiest of componist, en de artiesten in wier stijl een serie geschreven is
+const artistOf = (sg) => {
+  const a = (LIB.artists || {})[sg.id];
+  return a === 'gregorian' ? T().gregorian : a || (sg.orig ? T().origArtist : T().trad);
+};
+const likeOf = (cat) => (LIB.like || {})[cat] || '';
+// Zoeken zonder punten, spaties en hoofdletters: "dr dre" vindt "Dr. Dre" en "still dre" vindt "Still D.R.E."
+const norm = (v) => v.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '');
+const REFS = (LIB.refs || []).map(([title, artist, year, cat]) => ({ ref: true, title, artist, year, cat }));
 const songName = (id) => (LIB.names[lang] || {})[id] || LIB.names.en[id];
 const catName = (c) => (LIB.catNames[lang] || {})[c] || LIB.catNames.en[c];
 const $ = (id) => document.getElementById(id);
@@ -211,8 +225,9 @@ function ratingWidget(sg) {
   return box;
 }
 function matches(sg) {
-  const q = $('search').value.trim().toLowerCase();
-  if (q && !(songName(sg.id).toLowerCase().includes(q) || catName(sg.cat).toLowerCase().includes(q))) return false;
+  const q = norm($('search').value);
+  if (sg.ref) return (q && norm(sg.title + sg.artist + catName(sg.cat)).includes(q)) || (!q && filter === sg.cat);
+  if (q && !norm(songName(sg.id) + artistOf(sg) + catName(sg.cat) + likeOf(sg.cat)).includes(q)) return false;
   if (filter === 'five') return rating(sg.id) === 5;
   if (filter === 'four') return rating(sg.id) >= 4;
   if (filter === 'rated') return rating(sg.id) > 0;
@@ -234,14 +249,16 @@ function renderList() {
   const t = T(), list = $('list');
   list.innerHTML = '';
   // Hoogst beoordeelde liedjes eerst, daarna de volgorde van de bibliotheek
-  const shown = SONGS.filter(matches).sort((a, b) => rating(b.id) - rating(a.id));
+  const shown = SONGS.filter(matches).sort((a, b) => rating(b.id) - rating(a.id)).concat(REFS.filter(matches));
   $('empty').hidden = shown.length > 0;
   $('empty').textContent = t.none;
   const ins = INSTRUMENTS.find(x => x.id === instrument) || INSTRUMENTS[0];
   shown.forEach(sg => {
+    if (sg.ref) { list.appendChild(refCard(sg)); return; }
     const card = document.createElement('div');
     card.className = 'card' + (rating(sg.id) >= 4 ? ' top' : '');
-    card.innerHTML = `<b>${songName(sg.id)}</b><span class="meta">${catName(sg.cat)} · ${sg.orig ? t.orig : t.pd} · ${sg.bpm} bpm</span>`;
+    const style = likeOf(sg.cat) ? ` · ${t.likeOf} ${likeOf(sg.cat)}` : '';
+    card.innerHTML = `<b>${songName(sg.id)}</b><span class="artist">${artistOf(sg)}${style}</span><span class="meta">${catName(sg.cat)} · ${sg.orig ? t.orig : t.pd} · ${sg.bpm} bpm</span>`;
     card.appendChild(ratingWidget(sg));
     const acts = document.createElement('div');
     acts.className = 'acts';
@@ -252,6 +269,19 @@ function renderList() {
     card.appendChild(acts);
     list.appendChild(card);
   });
+}
+// Referentiekaart: bekend nummer om te beluisteren, niet om te spelen
+function refCard(r) {
+  const t = T(), card = document.createElement('div');
+  card.className = 'card ref';
+  card.innerHTML = `<b>${r.title}</b><span class="artist">${r.artist} · ${r.year}</span><span class="meta">${catName(r.cat)}</span><span class="lock">${t.ref}</span><div class="acts"></div>`;
+  const a = document.createElement('a');
+  a.className = 'ext';
+  a.target = '_blank'; a.rel = 'noopener';
+  a.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(r.artist.split(' feat.')[0] + ' ' + r.title);
+  a.textContent = t.ext;
+  card.querySelector('.acts').appendChild(a);
+  return card;
 }
 function render() {
   const t = T();
