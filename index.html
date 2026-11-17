@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Song Library 1.0</title>
+<link rel="icon" href="logo.png">
+<style>
+  :root {
+    --bg1: #0f1014; --bg2: #1e2030; --text: #eef0f4; --muted: #9aa0ad; --accent: #8fb4ff;
+    --gold: #ffcf5a; --panel: rgba(255, 255, 255, .05); --line: rgba(255, 255, 255, .13);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: radial-gradient(ellipse at 50% 0%, var(--bg2), var(--bg1) 70%) fixed;
+    color: var(--text); font-family: "Segoe UI", system-ui, sans-serif; padding-bottom: 130px;
+  }
+  button, input, select { font: inherit; color: var(--text); }
+  button { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: 14px; cursor: pointer; }
+  button:hover { background: rgba(255, 255, 255, .12); }
+  header { max-width: 1100px; margin: 0 auto; padding: 18px 16px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  header h1 { margin: 0; font-weight: 300; font-size: 26px; flex: 1; min-width: 200px; }
+  header h1 small { font-size: 13px; color: var(--muted); letter-spacing: .1em; margin-left: 6px; }
+  #search { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: 14px; width: min(320px, 100%); }
+  #lang { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; font-size: 13px; }
+  #lang option, #lang optgroup { background: var(--bg2); }
+  #instrRow { max-width: 1100px; margin: 12px auto 0; padding: 0 16px; display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+  #instr { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 14px; }
+  #instr option { background: var(--bg2); }
+  #chips { display: flex; flex-wrap: wrap; gap: 8px; max-width: 1100px; margin: 14px auto; padding: 0 16px; }
+  #chips button.on { background: var(--accent); color: #0f1530; border-color: var(--accent); }
+  #chips button.stars { color: var(--gold); }
+  #chips button.stars.on { background: var(--gold); color: #2a2000; border-color: var(--gold); }
+  #chips small { opacity: .7; margin-left: 4px; }
+  #list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .card.top { border-color: rgba(255, 207, 90, .45); }
+  .card b { font-weight: 500; font-size: 16px; }
+  .card .meta { font-size: 12px; color: var(--muted); }
+  .card .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .rating { display: flex; gap: 2px; }
+  .rating button { background: none; border: 0; padding: 2px; font-size: 22px; line-height: 1; color: rgba(255, 255, 255, .25); border-radius: 4px; }
+  .rating button.on { color: var(--gold); }
+  .rating button:hover { background: rgba(255, 255, 255, .08); }
+  #empty { max-width: 1100px; margin: 20px auto; padding: 0 16px; color: var(--muted); }
+  #note { max-width: 1100px; margin: 20px auto 0; padding: 0 16px; font-size: 12px; color: var(--muted); }
+  /* Balk onderaan: wat er nu voorspeelt, en de donatieknop */
+  #player { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 5; display: flex; align-items: center; gap: 12px;
+    background: rgba(20, 21, 30, .92); border: 1px solid var(--line); border-radius: 18px; padding: 10px 14px; backdrop-filter: blur(6px); }
+  #nowTitle { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 30%; }
+  #nowNotes { flex: 1; display: flex; gap: 4px; overflow: hidden; mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  #nowNotes span { font-size: 12px; padding: 3px 6px; border-radius: 6px; background: var(--panel); color: var(--muted); white-space: nowrap; }
+  #nowNotes span.now { background: var(--accent); color: #0f1530; }
+  #nowNotes span.done { opacity: .35; }
+  #coffee { color: #f0b46a; text-decoration: none; font-size: 14px; white-space: nowrap; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; }
+  #coffee:hover { background: rgba(240, 180, 106, .15); }
+  footer { max-width: 1100px; margin: 18px auto 0; padding: 0 16px; font-size: 12px; color: var(--muted); opacity: .75; }
+  @media (max-width: 640px) { #nowTitle { max-width: 40%; } #coffee span { display: none; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Song Library <small>1.0</small></h1>
+  <input id="search" type="search">
+  <select id="lang" aria-label="Language">
+    <option value="en">English</option>
+    <option value="nl">Nederlands</option>
+    <optgroup label="More languages">
+      <option value="de">Deutsch</option>
+      <option value="fr">Français</option>
+      <option value="es">Español</option>
+    </optgroup>
+  </select>
+</header>
+<div id="instrRow"><span id="instrLabel"></span> <select id="instr"></select></div>
+<div id="chips"></div>
+<div id="list"></div>
+<p id="empty" hidden></p>
+<p id="note"></p>
+<footer>Song Library 1.0</footer>
+
+<div id="player">
+  <button id="stopBtn" title="Stop">■</button>
+  <span id="nowTitle"></span>
+  <div id="nowNotes"></div>
+  <a id="coffee" href="https://urbantechmonk.gumroad.com/coffee" target="_blank" rel="noopener">☕&nbsp;<span></span></a>
+</div>
+
+<script src="songs.js"></script>
+<script>
+const LIB = window.SONG_LIBRARY;
+// Instrumenten die een liedje uit de bibliotheek kunnen openen. Nieuwe apps hier toevoegen.
+const INSTRUMENTS = [
+  { id: 'handpan', name: 'Handpan', pkg: 'nl.handpan.app', url: '../handpan/index.html' },
+];
+
+const LANGS = {
+  en: { search: 'Search songs…', all: 'All', five: '★★★★★', four: '★★★★+', rated: 'Rated', instr: 'Play on:', preview: '▶ Preview', practice: '🎯 Practice', listen: '🎧 Listen', stop: 'Stop', idle: 'Pick a song and press Preview', pd: 'public domain', orig: 'original in this style', none: 'No songs found.', rate: 'stars', clear: 'Tap the same star again to clear', donate: 'Buy me a coffee', more: 'More languages', missing: 'is not installed on this device',
+    note: 'Rate songs with 1 to 5 stars: the 5-star and 4+ filters show your favorites. The reggae, hip-hop, urban and pop tracks and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.' },
+  nl: { search: 'Zoek een liedje…', all: 'Alles', five: '★★★★★', four: '★★★★+', rated: 'Beoordeeld', instr: 'Spelen op:', preview: '▶ Voorspelen', practice: '🎯 Oefenen', listen: '🎧 Luisteren', stop: 'Stop', idle: 'Kies een liedje en druk op Voorspelen', pd: 'publiek domein', orig: 'eigen nummer in deze stijl', none: 'Geen liedjes gevonden.', rate: 'sterren', clear: 'Tik nog eens op dezelfde ster om te wissen', donate: 'Trakteer me op een koffie', more: 'Meer talen', missing: 'is niet geïnstalleerd op dit apparaat',
+    note: 'Geef liedjes 1 tot 5 sterren: de filters 5 sterren en 4+ tonen je favorieten. De reggae-, hiphop-, urban- en popnummers en een deel van country zijn eigen nummers voor deze apps; bekende hits zijn auteursrechtelijk beschermd. Alle andere liedjes zijn publiek domein.' },
+  de: { search: 'Lieder suchen…', all: 'Alle', five: '★★★★★', four: '★★★★+', rated: 'Bewertet', instr: 'Spielen auf:', preview: '▶ Vorspielen', practice: '🎯 Üben', listen: '🎧 Anhören', stop: 'Stopp', idle: 'Wähle ein Lied und drücke Vorspielen', pd: 'gemeinfrei', orig: 'eigenes Stück in diesem Stil', none: 'Keine Lieder gefunden.', rate: 'Sterne', clear: 'Denselben Stern erneut tippen zum Löschen', donate: 'Spendier mir einen Kaffee', more: 'Weitere Sprachen', missing: 'ist auf diesem Gerät nicht installiert',
+    note: 'Bewerte Lieder mit 1 bis 5 Sternen: die Filter 5 Sterne und 4+ zeigen deine Favoriten. Reggae-, Hip-Hop-, Urban- und Pop-Stücke sowie einige Country-Stücke sind eigene Kompositionen für diese Apps; bekannte Hits sind urheberrechtlich geschützt. Alle anderen Lieder sind gemeinfrei.' },
+  fr: { search: 'Chercher une chanson…', all: 'Tout', five: '★★★★★', four: '★★★★+', rated: 'Notées', instr: 'Jouer sur :', preview: '▶ Écouter', practice: '🎯 S\'exercer', listen: '🎧 Écouter sur', stop: 'Arrêt', idle: 'Choisissez une chanson et appuyez sur Écouter', pd: 'domaine public', orig: 'composition dans ce style', none: 'Aucune chanson trouvée.', rate: 'étoiles', clear: 'Touchez la même étoile pour effacer', donate: 'Offrez-moi un café', more: 'Autres langues', missing: 'n\'est pas installé sur cet appareil',
+    note: 'Notez les chansons de 1 à 5 étoiles : les filtres 5 étoiles et 4+ montrent vos favoris. Les morceaux reggae, hip-hop, urbains et pop ainsi qu\'une partie de la country sont des compositions pour ces applis ; les tubes connus sont protégés. Toutes les autres chansons sont du domaine public.' },
+  es: { search: 'Buscar canciones…', all: 'Todo', five: '★★★★★', four: '★★★★+', rated: 'Valoradas', instr: 'Tocar en:', preview: '▶ Escuchar', practice: '🎯 Practicar', listen: '🎧 Escuchar en', stop: 'Detener', idle: 'Elige una canción y pulsa Escuchar', pd: 'dominio público', orig: 'original en este estilo', none: 'No se encontraron canciones.', rate: 'estrellas', clear: 'Toca la misma estrella otra vez para borrar', donate: 'Invítame a un café', more: 'Más idiomas', missing: 'no está instalado en este dispositivo',
+    note: 'Valora las canciones con 1 a 5 estrellas: los filtros 5 estrellas y 4+ muestran tus favoritas. Los temas de reggae, hip-hop, urbano y pop y parte del country son composiciones para estas apps; los éxitos conocidos tienen derechos de autor. Las demás canciones son de dominio público.' },
+};
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+// Beoordelingen staan onder een gedeelde sleutel, zodat instrument-apps ze ook kunnen lezen
+const ratings = store.get('songlib.ratings', {});
+const rating = (id) => ratings[id] || 0;
+let lang = store.get('songlib.lang', null);
+if (!LANGS[lang]) lang = (navigator.languages || [navigator.language]).map(l => (l || '').slice(0, 2)).find(l => LANGS[l]) || 'en';
+let filter = store.get('songlib.filter', 'all');
+let instrument = store.get('songlib.instr', INSTRUMENTS[0].id);
+
+const SONGS = LIB.songs.map(([id, cat, bpm, notes, orig]) => ({
+  id, cat, bpm, orig,
+  items: notes.split(' ').map(tok => { const [n, d] = tok.split(':'); return { n, rest: n === 'R', beats: d ? +d : 1 }; }),
+}));
+const songName = (id) => (LIB.names[lang] || {})[id] || LIB.names.en[id];
+const catName = (c) => (LIB.catNames[lang] || {})[c] || LIB.catNames.en[c];
+const $ = (id) => document.getElementById(id);
+const T = () => LANGS[lang];
+
+// ---------- Voorspelen met een eenvoudige klank ----------
+let ctx = null, timers = [], playingId = null;
+const PC = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+function freq(n) {
+  const m = n.match(/^([A-G])(#|b)?(\d)$/);
+  const midi = 12 * (+m[3] + 1) + PC[m[1]] + (m[2] === '#' ? 1 : m[2] === 'b' ? -1 : 0);
+  return 440 * Math.pow(2, (midi - 69) / 12);
+}
+function pluck(f) {
+  const t = ctx.currentTime, out = ctx.createGain();
+  out.connect(ctx.destination);
+  out.gain.setValueAtTime(0, t); out.gain.linearRampToValueAtTime(.25, t + .008); out.gain.setTargetAtTime(0, t + .02, .45);
+  [[1, 1], [2, .35], [3, .1]].forEach(([r, a]) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = f * r; g.gain.value = a;
+    o.connect(g).connect(out); o.start(t); o.stop(t + 2.5);
+  });
+}
+function stopPreview() {
+  timers.forEach(clearTimeout); timers = [];
+  playingId = null;
+  $('nowTitle').textContent = T().idle;
+  $('nowNotes').innerHTML = '';
+  renderList();
+}
+function preview(sg) {
+  if (!ctx) ctx = new AudioContext();
+  if (ctx.state === 'suspended') ctx.resume();
+  stopPreview();
+  playingId = sg.id;
+  $('nowTitle').textContent = '▶ ' + songName(sg.id);
+  const notes = sg.items.filter(x => !x.rest);
+  $('nowNotes').innerHTML = notes.map(x => `<span>${x.n.replace('b', '♭').replace('#', '♯')}</span>`).join('');
+  const chips = [...$('nowNotes').children];
+  const beat = 60 / sg.bpm * 1000;
+  let at = 150, k = 0;
+  sg.items.forEach(x => {
+    if (!x.rest) {
+      const i = k++;
+      timers.push(setTimeout(() => {
+        pluck(freq(x.n));
+        chips.forEach((c, j) => { c.className = j < i ? 'done' : j === i ? 'now' : ''; });
+        chips[i].scrollIntoView({ block: 'nearest', inline: 'center' });
+      }, at));
+    }
+    at += x.beats * beat;
+  });
+  timers.push(setTimeout(stopPreview, at + 500));
+  renderList();
+}
+
+// ---------- Openen in een instrument-app ----------
+function openIn(sg, mode) {
+  stopPreview();
+  const ins = INSTRUMENTS.find(x => x.id === instrument) || INSTRUMENTS[0];
+  if (window.SongLibAndroid) {
+    if (!SongLibAndroid.open(ins.pkg, sg.id, mode)) alert(`${ins.name} ${T().missing}`);
+    return;
+  }
+  window.open(`${ins.url}?song=${encodeURIComponent(sg.id)}&mode=${mode}`, ins.id);
+}
+
+// ---------- Weergave ----------
+function setRating(id, n) {
+  if (rating(id) === n) delete ratings[id]; else ratings[id] = n;
+  store.set('songlib.ratings', ratings);
+  render();
+}
+function ratingWidget(sg) {
+  const box = document.createElement('div');
+  box.className = 'rating';
+  for (let n = 1; n <= 5; n++) {
+    const b = document.createElement('button');
+    b.textContent = '★';
+    b.className = n <= rating(sg.id) ? 'on' : '';
+    b.title = `${n} ${T().rate} · ${T().clear}`;
+    b.onclick = () => setRating(sg.id, n);
+    box.appendChild(b);
+  }
+  return box;
+}
+function matches(sg) {
+  const q = $('search').value.trim().toLowerCase();
+  if (q && !(songName(sg.id).toLowerCase().includes(q) || catName(sg.cat).toLowerCase().includes(q))) return false;
+  if (filter === 'five') return rating(sg.id) === 5;
+  if (filter === 'four') return rating(sg.id) >= 4;
+  if (filter === 'rated') return rating(sg.id) > 0;
+  return filter === 'all' || sg.cat === filter;
+}
+function renderChips() {
+  const t = T(), chips = $('chips');
+  chips.innerHTML = '';
+  const count = (f) => SONGS.filter(sg => f === 'five' ? rating(sg.id) === 5 : f === 'four' ? rating(sg.id) >= 4 : f === 'rated' ? rating(sg.id) > 0 : f === 'all' || sg.cat === f).length;
+  ['all', 'five', 'four', 'rated', ...LIB.cats].forEach(f => {
+    const b = document.createElement('button');
+    b.className = (f === filter ? 'on ' : '') + (['five', 'four', 'rated'].includes(f) ? 'stars' : '');
+    b.innerHTML = `${t[f] || catName(f)}<small>${count(f)}</small>`;
+    b.onclick = () => { filter = f; store.set('songlib.filter', f); render(); };
+    chips.appendChild(b);
+  });
+}
+function renderList() {
+  const t = T(), list = $('list');
+  list.innerHTML = '';
+  // Hoogst beoordeelde liedjes eerst, daarna de volgorde van de bibliotheek
+  const shown = SONGS.filter(matches).sort((a, b) => rating(b.id) - rating(a.id));
+  $('empty').hidden = shown.length > 0;
+  $('empty').textContent = t.none;
+  const ins = INSTRUMENTS.find(x => x.id === instrument) || INSTRUMENTS[0];
+  shown.forEach(sg => {
+    const card = document.createElement('div');
+    card.className = 'card' + (rating(sg.id) >= 4 ? ' top' : '');
+    card.innerHTML = `<b>${songName(sg.id)}</b><span class="meta">${catName(sg.cat)} · ${sg.orig ? t.orig : t.pd} · ${sg.bpm} bpm</span>`;
+    card.appendChild(ratingWidget(sg));
+    const acts = document.createElement('div');
+    acts.className = 'acts';
+    const btn = (label, fn) => { const b = document.createElement('button'); b.textContent = label; b.onclick = fn; acts.appendChild(b); };
+    btn(playingId === sg.id ? '■ ' + t.stop : t.preview, () => (playingId === sg.id ? stopPreview() : preview(sg)));
+    btn(`${t.practice} · ${ins.name}`, () => openIn(sg, 'practice'));
+    btn(`${t.listen} · ${ins.name}`, () => openIn(sg, 'listen'));
+    card.appendChild(acts);
+    list.appendChild(card);
+  });
+}
+function render() {
+  const t = T();
+  document.documentElement.lang = lang;
+  $('search').placeholder = t.search;
+  $('instrLabel').textContent = t.instr;
+  $('note').textContent = t.note;
+  $('coffee').title = t.donate;
+  $('coffee').querySelector('span').textContent = t.donate;
+  $('stopBtn').title = t.stop;
+  document.querySelector('#lang optgroup').label = t.more;
+  $('lang').value = lang;
+  if (!playingId) $('nowTitle').textContent = t.idle;
+  renderChips();
+  renderList();
+}
+
+INSTRUMENTS.forEach(ins => $('instr').add(new Option(ins.name, ins.id)));
+$('instr').value = instrument;
+$('instr').onchange = () => { instrument = $('instr').value; store.set('songlib.instr', instrument); renderList(); };
+$('lang').onchange = () => { lang = $('lang').value; store.set('songlib.lang', lang); render(); };
+$('search').oninput = renderList;
+$('stopBtn').onclick = stopPreview;
+render();
+</script>
+</body>
+</html>
