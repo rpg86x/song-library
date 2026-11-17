@@ -1,4 +1,4 @@
-# Song Library 1.4
+# Song Library 1.5
 
 One shared song library for all my instrument apps. Browse 133 songs in thirteen genres, rate them with 1 to 5 stars, preview them, and open a song straight in an instrument app to practice or listen. Works offline: no network, packages or audio files.
 
@@ -10,10 +10,14 @@ One shared song library for all my instrument apps. Browse 133 songs in thirteen
 - **1–5 star ratings**, like an old-school media player. The **★★★★★** filter shows only your top songs, **★★★★+** shows 4 and 5 stars, **Rated** shows every rated song. Higher-rated songs come first.
 - **Search** by title, artist/composer or genre ("dr dre", "beethoven", "still dre").
 - **▶ Preview** with a simple synthesized sound; the notes scroll along in the bar at the bottom.
-- **Open in an instrument:** 🎯 Practice or 🎧 Listen opens the song in the chosen instrument app (currently [Handpan](https://github.com/rpg86x/handpan) 2.3), where the song is shifted to fit the instrument's scale.
+- **Open in an instrument:** 🎯 Practice or 🎧 Listen opens the song in the chosen instrument app (currently [Handpan](https://github.com/rpg86x/handpan) 2.3 and the kalimba in [Yoga Instruments](https://github.com/rpg86x/yoga-instruments) 1.2), where the song is shifted to fit the instrument's scale.
 - English (default), Dutch, German, French and Spanish.
 
 The reggae, hip-hop, West Coast, Merseybeat, rock & blues, urban and pop tracks and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.
+
+## What's new in 1.5
+
+- **Kalimba** as a second instrument: choose it under *Play on* and Practice/Listen opens the song on the 17-tine kalimba in Yoga Instruments 1.2.
 
 ## What's new in 1.4
 
@@ -61,7 +65,7 @@ To add an instrument, add it to `INSTRUMENTS` in `index.html` (and to `<queries>
 
 **Windows:** download this repository and double-click `launch.vbs`. Put the `handpan` folder next to `song-library` so Practice and Listen can open it.
 
-**Android:** install `Song-Library-1.4.apk` from the [latest release](https://github.com/rpg86x/song-library/releases/latest), together with the Handpan app.
+**Android:** install `Song-Library-1.5.apk` from the [latest release](https://github.com/rpg86x/song-library/releases/latest), together with the Handpan app.
 
 ## Support
 

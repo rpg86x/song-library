@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Song Library 1.4</title>
+<title>Song Library 1.5</title>
 <link rel="icon" href="logo.png">
 <style>
   :root {
@@ -66,7 +66,7 @@
 </head>
 <body>
 <header>
-  <h1>Song Library <small>1.4</small></h1>
+  <h1>Song Library <small>1.5</small></h1>
   <input id="search" type="search">
   <select id="lang" aria-label="Language">
     <option value="en">English</option>
@@ -83,7 +83,7 @@
 <div id="list"></div>
 <p id="empty" hidden></p>
 <p id="note"></p>
-<footer>Song Library 1.4</footer>
+<footer>Song Library 1.5</footer>
 
 <div id="player">
   <button id="stopBtn" title="Stop">■</button>
@@ -98,6 +98,7 @@ const LIB = window.SONG_LIBRARY;
 // Instrumenten die een liedje uit de bibliotheek kunnen openen. Nieuwe apps hier toevoegen.
 const INSTRUMENTS = [
   { id: 'handpan', name: 'Handpan', pkg: 'nl.handpan.app', url: '../handpan/index.html' },
+  { id: 'kalimba', name: 'Kalimba', pkg: 'nl.yogainstruments.app', url: '../yoga-instrumenten/index.html' },
 ];
 
 const LANGS = {

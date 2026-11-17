@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.songlibrary.app"
-    android:versionCode="14"
-    android:versionName="1.4">
+    android:versionCode="15"
+    android:versionName="1.5">
 
     <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34" />
     <!-- Alleen voor de koffielink -->
@@ -10,6 +10,7 @@
     <!-- Instrument-apps die een liedje kunnen openen (nodig om ze te mogen starten) -->
     <queries>
         <package android:name="nl.handpan.app" />
+        <package android:name="nl.yogainstruments.app" />
     </queries>
 
     <application
