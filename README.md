@@ -1,19 +1,23 @@
-# Song Library 1.0
+# Song Library 1.1
 
-One shared song library for all my instrument apps. Browse 81 songs in eight genres, rate them with 1 to 5 stars, preview them, and open a song straight in an instrument app to practice or listen. Works offline: no network, packages or audio files.
+One shared song library for all my instrument apps. Browse 91 songs in nine genres, rate them with 1 to 5 stars, preview them, and open a song straight in an instrument app to practice or listen. Works offline: no network, packages or audio files.
 
 ![Song Library](logo.png)
 
 ## Features
 
-- **81 songs** in Children's songs, Classical, Folk & traditional, Country, Reggae style, Hip-hop style, Urban / R&B style and Pop style.
+- **91 songs** in Children's songs, Classical, Folk & traditional, Country, Reggae style, Hip-hop style, Urban / R&B style, Pop style and West Coast style.
 - **1–5 star ratings**, like an old-school media player. The **★★★★★** filter shows only your top songs, **★★★★+** shows 4 and 5 stars, **Rated** shows every rated song. Higher-rated songs come first.
 - **Search** by title or genre.
 - **▶ Preview** with a simple synthesized sound; the notes scroll along in the bar at the bottom.
-- **Open in an instrument:** 🎯 Practice or 🎧 Listen opens the song in the chosen instrument app (currently [Handpan](https://github.com/rpg86x/handpan) 2.0), where the song is shifted to fit the instrument's scale.
+- **Open in an instrument:** 🎯 Practice or 🎧 Listen opens the song in the chosen instrument app (currently [Handpan](https://github.com/rpg86x/handpan) 2.1), where the song is shifted to fit the instrument's scale.
 - English (default), Dutch, German, French and Spanish.
 
-The reggae, hip-hop, urban and pop tracks and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.
+The reggae, hip-hop, West Coast, urban and pop tracks and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.
+
+## What's new in 1.1
+
+- **West Coast style:** 10 original tunes in a laid-back G-funk feel (minor riffs, lazy tempo around 86–96 bpm): Sunset Cruise, Hydraulic Bounce, Palm Trees & Bass, Whistle Lead, Chrome Rims, Boulevard Nights, Coastline Drive, Laid Back Bounce, Talkbox Hook and City Haze. They are written for these apps and are not covers of existing songs.
 
 ## For instrument apps
 
@@ -37,7 +41,7 @@ To add an instrument, add it to `INSTRUMENTS` in `index.html` (and to `<queries>
 
 **Windows:** download this repository and double-click `launch.vbs`. Put the `handpan` folder next to `song-library` so Practice and Listen can open it.
 
-**Android:** install `Song-Library-1.0.apk` from the [latest release](https://github.com/rpg86x/song-library/releases/latest), together with the Handpan app.
+**Android:** install `Song-Library-1.1.apk` from the [latest release](https://github.com/rpg86x/song-library/releases/latest), together with the Handpan app.
 
 ## Support
 
