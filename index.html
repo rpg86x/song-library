@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Song Library 1.6</title>
+<title>Song Library 1.7</title>
 <link rel="icon" href="logo.png">
 <style>
   :root {
@@ -66,7 +66,7 @@
 </head>
 <body>
 <header>
-  <h1>Song Library <small>1.6</small></h1>
+  <h1>Song Library <small>1.7</small></h1>
   <input id="search" type="search">
   <select id="lang" aria-label="Language">
     <option value="en">English</option>
@@ -83,7 +83,7 @@
 <div id="list"></div>
 <p id="empty" hidden></p>
 <p id="note"></p>
-<footer>Song Library 1.6</footer>
+<footer>Song Library 1.7</footer>
 
 <div id="player">
   <button id="stopBtn" title="Stop">■</button>
@@ -99,6 +99,8 @@ const LIB = window.SONG_LIBRARY;
 const INSTRUMENTS = [
   { id: 'handpan', name: 'Handpan', pkg: 'nl.handpan.app', url: '../handpan/index.html' },
   { id: 'kalimba', name: 'Kalimba', pkg: 'nl.yogainstruments.app', url: '../yoga-instrumenten/index.html' },
+  // Touch Piano staat op deze pc buiten de map met de andere apps
+  { id: 'piano', name: 'Touch Piano', pkg: 'nl.touchpiano.app', url: 'file:///C:/Users/User/Documents/ChatGPT/Commercial%20App%20Dev/touch-piano/windows/index.html' },
 ];
 
 const LANGS = {
