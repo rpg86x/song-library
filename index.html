@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Song Library 1.5</title>
+<title>Song Library 1.6</title>
 <link rel="icon" href="logo.png">
 <style>
   :root {
@@ -66,7 +66,7 @@
 </head>
 <body>
 <header>
-  <h1>Song Library <small>1.5</small></h1>
+  <h1>Song Library <small>1.6</small></h1>
   <input id="search" type="search">
   <select id="lang" aria-label="Language">
     <option value="en">English</option>
@@ -83,7 +83,7 @@
 <div id="list"></div>
 <p id="empty" hidden></p>
 <p id="note"></p>
-<footer>Song Library 1.5</footer>
+<footer>Song Library 1.6</footer>
 
 <div id="player">
   <button id="stopBtn" title="Stop">■</button>
@@ -103,15 +103,15 @@ const INSTRUMENTS = [
 
 const LANGS = {
   en: { search: 'Search title or artist…', trad: 'Traditional', origArtist: 'Song Library original', gregorian: 'Gregorian chant', likeOf: 'in the style of', ref: '🔒 Copyrighted: not playable in the apps', ext: '🔗 Listen on YouTube', all: 'All', five: '★★★★★', four: '★★★★+', rated: 'Rated', instr: 'Play on:', preview: '▶ Preview', practice: '🎯 Practice', listen: '🎧 Listen', stop: 'Stop', idle: 'Pick a song and press Preview', pd: 'public domain', orig: 'original in this style', none: 'No songs found.', rate: 'stars', clear: 'Tap the same star again to clear', donate: 'Buy me a coffee', more: 'More languages', missing: 'is not installed on this device',
-    note: 'Rate songs with 1 to 5 stars: the 5-star and 4+ filters show your favorites. The reggae, hip-hop, West Coast, Merseybeat, rock & blues, early jazz, urban and pop tracks, most sea shanties and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.' },
+    note: 'Rate songs with 1 to 5 stars: the 5-star and 4+ filters show your favorites. The reggae, hip-hop, West Coast, Merseybeat, rock & blues, early jazz, urban and pop tracks, most sea shanties and the icaro-style songs and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.' },
   nl: { search: 'Zoek op titel of artiest…', trad: 'Traditioneel', origArtist: 'Song Library-origineel', gregorian: 'Gregoriaans', likeOf: 'in de stijl van', ref: '🔒 Auteursrechtelijk beschermd: niet speelbaar in de apps', ext: '🔗 Luister op YouTube', all: 'Alles', five: '★★★★★', four: '★★★★+', rated: 'Beoordeeld', instr: 'Spelen op:', preview: '▶ Voorspelen', practice: '🎯 Oefenen', listen: '🎧 Luisteren', stop: 'Stop', idle: 'Kies een liedje en druk op Voorspelen', pd: 'publiek domein', orig: 'eigen nummer in deze stijl', none: 'Geen liedjes gevonden.', rate: 'sterren', clear: 'Tik nog eens op dezelfde ster om te wissen', donate: 'Trakteer me op een koffie', more: 'Meer talen', missing: 'is niet geïnstalleerd op dit apparaat',
-    note: 'Geef liedjes 1 tot 5 sterren: de filters 5 sterren en 4+ tonen je favorieten. De reggae-, hiphop-, West Coast-, Merseybeat-, rock & blues-, oude jazz-, urban- en popnummers, de meeste zeemansliederen en een deel van country zijn eigen nummers voor deze apps; bekende hits zijn auteursrechtelijk beschermd. Alle andere liedjes zijn publiek domein.' },
+    note: 'Geef liedjes 1 tot 5 sterren: de filters 5 sterren en 4+ tonen je favorieten. De reggae-, hiphop-, West Coast-, Merseybeat-, rock & blues-, oude jazz-, urban- en popnummers, de meeste zeemansliederen en de icaro-stijlnummers en een deel van country zijn eigen nummers voor deze apps; bekende hits zijn auteursrechtelijk beschermd. Alle andere liedjes zijn publiek domein.' },
   de: { search: 'Titel oder Künstler suchen…', trad: 'Traditionell', origArtist: 'Song-Library-Original', gregorian: 'Gregorianisch', likeOf: 'im Stil von', ref: '🔒 Urheberrechtlich geschützt: in den Apps nicht spielbar', ext: '🔗 Auf YouTube anhören', all: 'Alle', five: '★★★★★', four: '★★★★+', rated: 'Bewertet', instr: 'Spielen auf:', preview: '▶ Vorspielen', practice: '🎯 Üben', listen: '🎧 Anhören', stop: 'Stopp', idle: 'Wähle ein Lied und drücke Vorspielen', pd: 'gemeinfrei', orig: 'eigenes Stück in diesem Stil', none: 'Keine Lieder gefunden.', rate: 'Sterne', clear: 'Denselben Stern erneut tippen zum Löschen', donate: 'Spendier mir einen Kaffee', more: 'Weitere Sprachen', missing: 'ist auf diesem Gerät nicht installiert',
-    note: 'Bewerte Lieder mit 1 bis 5 Sternen: die Filter 5 Sterne und 4+ zeigen deine Favoriten. Reggae-, Hip-Hop-, West-Coast-, Merseybeat-, Rock-&-Blues-, Jazz-, Urban- und Pop-Stücke, die meisten Seemannslieder sowie einige Country-Stücke sind eigene Kompositionen für diese Apps; bekannte Hits sind urheberrechtlich geschützt. Alle anderen Lieder sind gemeinfrei.' },
+    note: 'Bewerte Lieder mit 1 bis 5 Sternen: die Filter 5 Sterne und 4+ zeigen deine Favoriten. Reggae-, Hip-Hop-, West-Coast-, Merseybeat-, Rock-&-Blues-, Jazz-, Urban- und Pop-Stücke, die meisten Seemannslieder und die Icaro-Stücke sowie einige Country-Stücke sind eigene Kompositionen für diese Apps; bekannte Hits sind urheberrechtlich geschützt. Alle anderen Lieder sind gemeinfrei.' },
   fr: { search: 'Titre ou artiste…', trad: 'Traditionnel', origArtist: 'Original Song Library', gregorian: 'Chant grégorien', likeOf: 'dans le style de', ref: '🔒 Protégé par le droit d\'auteur : non jouable dans les applis', ext: '🔗 Écouter sur YouTube', all: 'Tout', five: '★★★★★', four: '★★★★+', rated: 'Notées', instr: 'Jouer sur :', preview: '▶ Écouter', practice: '🎯 S\'exercer', listen: '🎧 Écouter sur', stop: 'Arrêt', idle: 'Choisissez une chanson et appuyez sur Écouter', pd: 'domaine public', orig: 'composition dans ce style', none: 'Aucune chanson trouvée.', rate: 'étoiles', clear: 'Touchez la même étoile pour effacer', donate: 'Offrez-moi un café', more: 'Autres langues', missing: 'n\'est pas installé sur cet appareil',
-    note: 'Notez les chansons de 1 à 5 étoiles : les filtres 5 étoiles et 4+ montrent vos favoris. Les morceaux reggae, hip-hop, West Coast, Merseybeat, rock & blues, jazz ancien, urbains et pop, la plupart des chants de marins ainsi qu\'une partie de la country sont des compositions pour ces applis ; les tubes connus sont protégés. Toutes les autres chansons sont du domaine public.' },
+    note: 'Notez les chansons de 1 à 5 étoiles : les filtres 5 étoiles et 4+ montrent vos favoris. Les morceaux reggae, hip-hop, West Coast, Merseybeat, rock & blues, jazz ancien, urbains et pop, la plupart des chants de marins et les morceaux de style icaro ainsi qu\'une partie de la country sont des compositions pour ces applis ; les tubes connus sont protégés. Toutes les autres chansons sont du domaine public.' },
   es: { search: 'Buscar título o artista…', trad: 'Tradicional', origArtist: 'Original de Song Library', gregorian: 'Canto gregoriano', likeOf: 'al estilo de', ref: '🔒 Con derechos de autor: no se puede tocar en las apps', ext: '🔗 Escuchar en YouTube', all: 'Todo', five: '★★★★★', four: '★★★★+', rated: 'Valoradas', instr: 'Tocar en:', preview: '▶ Escuchar', practice: '🎯 Practicar', listen: '🎧 Escuchar en', stop: 'Detener', idle: 'Elige una canción y pulsa Escuchar', pd: 'dominio público', orig: 'original en este estilo', none: 'No se encontraron canciones.', rate: 'estrellas', clear: 'Toca la misma estrella otra vez para borrar', donate: 'Invítame a un café', more: 'Más idiomas', missing: 'no está instalado en este dispositivo',
-    note: 'Valora las canciones con 1 a 5 estrellas: los filtros 5 estrellas y 4+ muestran tus favoritas. Los temas de reggae, hip-hop, West Coast, Merseybeat, rock y blues, jazz antiguo, urbano y pop, la mayoría de las canciones de marineros y parte del country son composiciones para estas apps; los éxitos conocidos tienen derechos de autor. Las demás canciones son de dominio público.' },
+    note: 'Valora las canciones con 1 a 5 estrellas: los filtros 5 estrellas y 4+ muestran tus favoritas. Los temas de reggae, hip-hop, West Coast, Merseybeat, rock y blues, jazz antiguo, urbano y pop, la mayoría de las canciones de marineros y los temas de estilo ícaro y parte del country son composiciones para estas apps; los éxitos conocidos tienen derechos de autor. Las demás canciones son de dominio público.' },
 };
 
 const store = {
@@ -276,11 +276,11 @@ function renderList() {
 function refCard(r) {
   const t = T(), card = document.createElement('div');
   card.className = 'card ref';
-  card.innerHTML = `<b>${r.title}</b><span class="artist">${r.artist} · ${r.year}</span><span class="meta">${catName(r.cat)}</span><span class="lock">${t.ref}</span><div class="acts"></div>`;
+  card.innerHTML = `<b>${r.title}</b><span class="artist">${r.artist}${r.year ? ' · ' + r.year : ''}</span><span class="meta">${catName(r.cat)}</span><span class="lock">${t.ref}</span><div class="acts"></div>`;
   const a = document.createElement('a');
   a.className = 'ext';
   a.target = '_blank'; a.rel = 'noopener';
-  a.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(r.artist.split(' feat.')[0] + ' ' + r.title);
+  a.href = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(r.artist.split(' feat.')[0].split(' (')[0] + ' ' + r.title);
   a.textContent = t.ext;
   card.querySelector('.acts').appendChild(a);
   return card;

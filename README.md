@@ -1,12 +1,12 @@
-# Song Library 1.5
+# Song Library 1.6
 
-One shared song library for all my instrument apps. Browse 133 songs in thirteen genres, rate them with 1 to 5 stars, preview them, and open a song straight in an instrument app to practice or listen. Works offline: no network, packages or audio files.
+One shared song library for all my instrument apps. Browse 143 songs in fourteen genres, rate them with 1 to 5 stars, preview them, and open a song straight in an instrument app to practice or listen. Works offline: no network, packages or audio files.
 
 ![Song Library](logo.png)
 
 ## Features
 
-- **133 songs** in Children's songs, Classical, Folk & traditional, Country, Reggae style, Hip-hop style, Urban / R&B style, Pop style, West Coast style, Merseybeat style, Rock & blues style, Sea shanties and Early jazz & ragtime style.
+- **143 songs** in Children's songs, Classical, Folk & traditional, Country, Reggae style, Hip-hop style, Urban / R&B style, Pop style, West Coast style, Merseybeat style, Rock & blues style, Sea shanties, Early jazz & ragtime style and Icaro style (Amazon).
 - **1–5 star ratings**, like an old-school media player. The **★★★★★** filter shows only your top songs, **★★★★+** shows 4 and 5 stars, **Rated** shows every rated song. Higher-rated songs come first.
 - **Search** by title, artist/composer or genre ("dr dre", "beethoven", "still dre").
 - **▶ Preview** with a simple synthesized sound; the notes scroll along in the bar at the bottom.
@@ -14,6 +14,11 @@ One shared song library for all my instrument apps. Browse 133 songs in thirteen
 - English (default), Dutch, German, French and Spanish.
 
 The reggae, hip-hop, West Coast, Merseybeat, rock & blues, urban and pop tracks and some country tracks are originals written for these apps; well-known hits are copyrighted. All other songs are public domain.
+
+## What's new in 1.6
+
+- **Icaro style (Amazon):** 10 calm, repetitive original songs inspired by the healing songs of the Amazon (Canto del Río, Selva de Noche, Agua Clara, Luz de Luna and more), with a soft rattle rhythm when you listen.
+- Real icaros are sacred songs passed on orally by the Shipibo-Konibo and mestizo healers; they are not transcribed here. Two reference cards link to recordings of traditional icaros instead. The originals are meant for relaxation and practice, not as ceremonial songs.
 
 ## What's new in 1.5
 
@@ -65,7 +70,7 @@ To add an instrument, add it to `INSTRUMENTS` in `index.html` (and to `<queries>
 
 **Windows:** download this repository and double-click `launch.vbs`. Put the `handpan` folder next to `song-library` so Practice and Listen can open it.
 
-**Android:** install `Song-Library-1.5.apk` from the [latest release](https://github.com/rpg86x/song-library/releases/latest), together with the Handpan app.
+**Android:** install `Song-Library-1.6.apk` from the [latest release](https://github.com/rpg86x/song-library/releases/latest), together with the Handpan app.
 
 ## Support
 
